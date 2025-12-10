@@ -73,29 +73,30 @@
       background-image: url("5.png");
     }
 
-    /* ARROWS */
+    /* ARROWS (smaller so they don't cover text as much) */
     .buttons button#prev {
       position: absolute;
       top: 50%;
-      left: 1rem;
+      left: 0.5rem;
       transform: translateY(-50%);
     }
 
     .buttons button#next {
       position: absolute;
       top: 50%;
-      right: 1rem;
+      right: 0.5rem;
       transform: translateY(-50%);
     }
 
     .buttons button {
       border: 2px solid #e5ebf3;
-      background-color: transparent;
+      background-color: rgba(54, 42, 43, 0.7);
       color: #e5ebf3;
       cursor: pointer;
-      padding: 13px 15px;
+      padding: 6px 8px;      /* smaller than before */
       border-radius: 50%;
       outline: none;
+      font-size: 0.8rem;     /* smaller icon size */
     }
 
     .buttons button:hover {
@@ -105,11 +106,11 @@
 
     @media (max-width: 480px) {
       .buttons button#prev {
-        left: 0.5rem;
+        left: 0.25rem;
       }
 
       .buttons button#next {
-        right: 0.5rem;
+        right: 0.25rem;
       }
     }
   </style>
@@ -134,27 +135,31 @@
     const slides = document.querySelectorAll(".slide");
     const nextButton = document.getElementById("next");
     const prevButton = document.getElementById("prev");
-    const auto = true;
-    const intervalTime = 5000;
+
+    /* Set to true + use intervalTime if you ever want auto-slide again */
+    const auto = false;
+    const intervalTime = 240000; // 4 minutes (only used if auto = true)
     let slideInterval;
 
     const nextSlide = () => {
       const current = document.querySelector(".current");
-      current.classList.remove("current");
-      if (current.nextElementSibling && current.nextElementSibling.classList.contains("slide")) {
-        current.nextElementSibling.classList.add("current");
-      } else {
-        slides[0].classList.add("current");
+      const next = current.nextElementSibling;
+
+      // only move if the next element is a slide (no looping)
+      if (next && next.classList.contains("slide")) {
+        current.classList.remove("current");
+        next.classList.add("current");
       }
     };
 
     const prevSlide = () => {
       const current = document.querySelector(".current");
-      current.classList.remove("current");
-      if (current.previousElementSibling && current.previousElementSibling.classList.contains("slide")) {
-        current.previousElementSibling.classList.add("current");
-      } else {
-        slides[slides.length - 1].classList.add("current");
+      const prev = current.previousElementSibling;
+
+      // only move if the previous element is a slide (no looping)
+      if (prev && prev.classList.contains("slide")) {
+        current.classList.remove("current");
+        prev.classList.add("current");
       }
     };
 
