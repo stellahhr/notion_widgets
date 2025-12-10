@@ -17,116 +17,86 @@
 
     body {
       font-family: "Lexend", sans-serif;
-      background-color: #362a2b;
-      color: #e5ebf3;
-      /* helps center the widget nicely, also in a browser */
+      background-color: #fcfcc8;   /* updated background */
+      color: #362a2b;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
 
-    /* SQUARE, RESPONSIVE SLIDER CONTAINER */
     .slider {
       position: relative;
       width: 100%;
-      max-width: 1080px;    /* never bigger than your original image */
-      aspect-ratio: 1 / 1;  /* always a square */
+      max-width: 1080px;
+      aspect-ratio: 1 / 1;
       margin: 0 auto;
       overflow: hidden;
     }
 
     .slide {
       position: absolute;
-      inset: 0;             /* shorthand for top/right/bottom/left: 0 */
+      inset: 0;
       width: 100%;
       height: 100%;
       opacity: 0;
       transition: opacity 0.4s ease-in-out;
 
-      /* keep 1080x1080 look: no stretch, no crop */
       background-size: contain;
       background-position: center;
       background-repeat: no-repeat;
-      background-color: #362a2b; /* behind the image if there are side bars */
+      background-color: #fcfcc8; /* updated */
     }
 
     .slide.current {
       opacity: 1;
     }
 
-    /* only define WHICH image each slide uses */
-    .slide:first-child {
-      background-image: url("1.png");
-    }
+    /* IMAGES (8 slides) */
+    .slide:nth-child(1) { background-image: url("1.png"); }
+    .slide:nth-child(2) { background-image: url("2.png"); }
+    .slide:nth-child(3) { background-image: url("3.png"); }
+    .slide:nth-child(4) { background-image: url("4.png"); }
+    .slide:nth-child(5) { background-image: url("5.png"); }
+    .slide:nth-child(6) { background-image: url("6.png"); }
+    .slide:nth-child(7) { background-image: url("7.png"); }
+    .slide:nth-child(8) { background-image: url("8.png"); }
 
-    .slide:nth-child(2) {
-      background-image: url("2.png");
-    }
-
-    .slide:nth-child(3) {
-      background-image: url("3.png");
-    }
-
-    .slide:nth-child(4) {
-      background-image: url("4.png");
-    }
-
-    .slide:nth-child(5) {
-      background-image: url("5.png");
-    }
-
-    .slide:nth-child(6) {
-      background-image: url("6.png");
-    }
-
-    .slide:nth-child(7) {
-      background-image: url("7.png");
-    }
-
-    .slide:nth-child(8) {
-      background-image: url("8.png");
-    }
-
-    /* ARROW BUTTONS */
+    /* SMALL ARROWS */
     .buttons button#prev {
       position: absolute;
       top: 50%;
-      left: 1rem;
+      left: 0.5rem;
       transform: translateY(-50%);
     }
 
     .buttons button#next {
       position: absolute;
       top: 50%;
-      right: 1rem;
+      right: 0.5rem;
       transform: translateY(-50%);
     }
 
     .buttons button {
-      border: 2px solid #e5ebf3;
-      background-color: transparent;
-      color: #e5ebf3;
+      border: 2px solid #362a2b;
+      background-color: rgba(252, 252, 200, 0.6); /* tinted version of #fcfcc8 */
+      color: #362a2b;
       cursor: pointer;
-      padding: 13px 15px;
+      padding: 6px 8px;
       border-radius: 50%;
       outline: none;
+      font-size: 0.8rem;
+      transition: 0.2s;
     }
 
     .buttons button:hover {
-      background-color: #e5ebf3;
-      color: #362a2b;
+      background-color: #362a2b;
+      color: #fcfcc8;
     }
 
-    /* make sure buttons stay correctly positioned on very small screens */
     @media (max-width: 480px) {
-      .buttons button#prev {
-        left: 0.5rem;
-      }
-
-      .buttons button#next {
-        right: 0.5rem;
-      }
+      .buttons button#prev { left: 0.25rem; }
+      .buttons button#next { right: 0.25rem; }
     }
   </style>
 </head>
@@ -143,7 +113,6 @@
     <div class="slide"></div>
     <div class="slide"></div>
 
-    <!-- keep buttons inside slider so they follow its size -->
     <div class="buttons">
       <button id="prev"><i class="fas fa-arrow-left"></i></button>
       <button id="next"><i class="fas fa-arrow-right"></i></button>
@@ -154,27 +123,28 @@
     const slides = document.querySelectorAll(".slide");
     const nextButton = document.getElementById("next");
     const prevButton = document.getElementById("prev");
-    const auto = true;
-    const intervalTime = 5000;
+
+    const auto = false;  
+    const intervalTime = 240000; 
     let slideInterval;
 
     const nextSlide = () => {
       const current = document.querySelector(".current");
-      current.classList.remove("current");
-      if (current.nextElementSibling && current.nextElementSibling.classList.contains("slide")) {
-        current.nextElementSibling.classList.add("current");
-      } else {
-        slides[0].classList.add("current");
+      const next = current.nextElementSibling;
+
+      if (next && next.classList.contains("slide")) {
+        current.classList.remove("current");
+        next.classList.add("current");
       }
     };
 
     const prevSlide = () => {
       const current = document.querySelector(".current");
-      current.classList.remove("current");
-      if (current.previousElementSibling && current.previousElementSibling.classList.contains("slide")) {
-        current.previousElementSibling.classList.add("current");
-      } else {
-        slides[slides.length - 1].classList.add("current");
+      const prev = current.previousElementSibling;
+
+      if (prev && prev.classList.contains("slide")) {
+        current.classList.remove("current");
+        prev.classList.add("current");
       }
     };
 
@@ -202,4 +172,3 @@
 </body>
 
 </html>
-
